@@ -51,13 +51,15 @@ public class S3FormController {
 		expire.formatGmt('HH:mm:ss')+'.'+expire.formatGMT('SSS')+'Z';           
 	      
 	string policy { get {return 
-		'{ "expiration": "'+formattedexpire+'","conditions": [ {"bucket": "'+
-    	record.Bucket_Name__c +'" } ,{ "acl": "'+
-    	record.Access__c +'" },'+
-    //	'{"success_action_status": "201" },'+
-    	'{"content-type":"'+record.Content_Type__c+'"},'+
-    	'{"success_action_redirect": "https://'+serverurl+'/'+record.id+'"},' +
-    	'["starts-with", "$key", ""] ]}'; 	} } 
+		'{ 	"expiration": "'+formattedexpire+'",
+			"conditions": [ {"bucket": "'+ record.Bucket_Name__c +'" } ,
+							{ "acl": "'  + record.Access__c +'" },'+
+    					//	'{"success_action_status": "201" },'+
+    						'{"content-type":"'+record.Content_Type__c+'"},'+
+    						'{"success_action_redirect": "https://'+serverurl+'/'+record.id+'"},' +
+    						'["starts-with", "$key", ""] ]}'; 	
+    	} 
+    }
     
     public String getPolicy() {
         return EncodingUtil.base64Encode(Blob.valueOf(policy));
