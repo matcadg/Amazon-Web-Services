@@ -15,7 +15,7 @@ req.setBodyAsBlob(payload);
 //Authenticating a Request in the Authorization Header
 String algorithm = 'AWS4-HMAC-SHA256';
 
-String yourAccessKeyId = 'AKIAJIIR6YFA2YIL2CJA';
+String yourAccessKeyId = 'KEY';
 String longTime = System.now().formatGMT('EEE, dd MMM yyyy HH:mm:ss')+' GMT';
 String xdate = System.now().formatGmt('yyyyMMdd');
 String xAmzDate = xdate + 'T' + System.now().formatGmt('HHmmss') + 'Z';
@@ -78,7 +78,7 @@ DateRegionKey        = HMAC-SHA256(<DateKey>, "<aws-region>")
 DateRegionServiceKey = HMAC-SHA256(<DateRegionKey>, "<aws-service>")
 SigningKey           = HMAC-SHA256(<DateRegionServiceKey>, "aws4_request")
 */
-String secretKey = 'N6Nql6BaDK649LnUkmlso4AtM2ZnnuBC9WcLl9Kh';
+String secretKey = 'SECRET';
 Blob dateKey = Crypto.generateMac('HmacSHA256', blob.valueof(xdate),blob.valueof('AWS4'+secretKey));
 Blob dateRegionKey = Crypto.generateMac('HmacSHA256', blob.valueof(awsRegion),dateKey);
 Blob dateRegionServiceKey = Crypto.generateMac('HmacSHA256', blob.valueof('s3'),dateRegionKey);
