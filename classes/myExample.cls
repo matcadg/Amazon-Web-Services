@@ -1,7 +1,7 @@
 //CHECK Date header and standard
 
 String filePath = '/test2.txt';
-Blob payload = Blob.valueOf('myFileBody');
+Blob payload = Blob.valueOf('myFileBodyupdated');
 Integer contentlength = payload.size();
 String bucketName = 'matcadev';
 
@@ -40,9 +40,10 @@ String signature;
 String canonicalHashedPayload = EncodingUtil.convertToHex(Crypto.generateDigest('SHA-256', payload));
 
 String canonicalMethod = method;
-String canonicalUri = EncodingUtil.urlEncode(filePath, 'UTF-8');
-String canonicalQuery ;//EncodingUtil.urlEncode('', 'UTF-8');
-String canonicalHeaders = 	'content-length:'+contentlength+'\n'+
+//don't encode forward slash in file path
+String canonicalUri = filePath;//EncodingUtil.urlEncode(filePath, 'UTF-8');
+String canonicalQuery = EncodingUtil.urlEncode('', 'UTF-8');
+String canonicalHeaders = 	//'content-length:'+contentlength+'\n'+
 							'date:'+longTime+'\n'+
 							'host:'+host+'\n'+
 							'x-amz-content-sha256:'+canonicalHashedPayload+'\n'+
@@ -56,6 +57,7 @@ String canonicalRequest = 	canonicalMethod+'\n'+
 							canonicalHeaders+'\n'+
 							canonicalSignedHeaders+'\n'+
 							canonicalHashedPayload;
+System.debug('canonicalRequest:\n'+canonicalRequest);
 //Task 2: Create a String to Sign
 /*
 "AWS4-HMAC-SHA256" + \n" +
@@ -111,6 +113,6 @@ req.setHeader('Authorization', authorization);
 
 //SEND
 Http http = new Http();
-System.debug('request:'+reg);
+System.debug('request:'+req);
 HttpResponse res = http.send(req);
 System.debug(res + res.getBody());
